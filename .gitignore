@@ -1,0 +1,5 @@
+token.properties
+# Project exclude paths
+/.gradle/
+/build/
+/build/classes/java/main/
