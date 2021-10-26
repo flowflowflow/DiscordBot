@@ -1,5 +1,6 @@
 import discord4j.core.DiscordClient;
-
+import discord4j.core.GatewayDiscordClient;
+import reactor.core.publisher.Mono;
 import util.Token;
 
 public class DiscordBot {
@@ -9,8 +10,8 @@ public class DiscordBot {
 
         DiscordClient client = DiscordClient.create(token);
 
-
-
+        Mono<Void> login = client.withGateway((GatewayDiscordClient gateway) -> Mono.empty());
+        login.block();
 
 
 

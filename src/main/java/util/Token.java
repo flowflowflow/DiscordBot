@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class Token {
 
-    // Return Discord API authentification token from properties file
+    // Return Discord API authentication token from properties file
     public static String readToken() {
         String propFile = "src/main/resources/token.properties";
 
