@@ -1,43 +1,58 @@
-import discord4j.core.DiscordClient;
+import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
-import reactor.core.publisher.Mono;
-import util.Token;
+import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import util.IOHelper;
 
 public class DiscordBot {
     public static void main(String[] args) {
 
-        final String token = Token.readToken();
-
-        DiscordClient client = DiscordClient.create(token);
-
-        Mono<Void> login = client.withGateway((GatewayDiscordClient gateway) -> Mono.empty());
-        login.block();
-
-
-
-
-        //Create Discord client and log in the bot
-        /*
-        GatewayDiscordClient client = DiscordClientBuilder.create(token)
-                .build()
+        final Logger logger = LoggerFactory.getLogger("DiscordBot.class");
+        final String token = IOHelper.readToken();
+        final GatewayDiscordClient client = DiscordClientBuilder.create(token).build()
                 .login()
                 .block();
 
-        client.getEventDispatcher().on(ReadyEvent.class)
-                .subscribe(event -> {
-                    User self = event.getSelf();
-                    System.out.println(String.format("Logged in as %s#%s", self.getUsername(), self.getDiscriminator()));
-                });
+        try {
+            new GlobalCommandRegistrar(client.getRestClient()).registerCommands();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Failed registering commands", e);
+            System.exit(-1);
+        }
 
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .map(MessageCreateEvent::getMessage)
-                .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-                .filter(message -> message.getContent().equalsIgnoreCase("!ping"))
-                .flatMap(Message::getChannel)
-                .flatMap(channel -> channel.createMessage("Pong!"))
-                .subscribe();
+
+        client.on(ChatInputInteractionEvent.class, event -> {
+            // logic
+            if(event.getCommandName().equals("ping")) {
+                return event.reply("Pong :)!");
+            }
+            else return null;
+        }).subscribe();
+
 
         client.onDisconnect().block();
-        */
+/*
+        System.out.println("=============================");
+
+        Mono.just("LUL").map(String::length).subscribe(System.out::println);
+        Flux.just('O', 'M', 'E', 'G', 'A', 'L', 'U', 'L').subscribe(System.out::print);
+
+
+        Mono.just("Hello World")
+                .flatMap(aString -> Mono.just(aString.length()))
+                .subscribe(System.out::println); // prints 11
+
+        Flux.just("Hello", "World")
+                .flatMap(aString -> Flux.just(aString.length(), 42))
+                .subscribe(System.out::println);
+
+
+        System.out.println("=============================");
+        login.block();
+*/
+
+
     }
 }

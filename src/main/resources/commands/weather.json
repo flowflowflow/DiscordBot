@@ -1,0 +1,12 @@
+{
+  "name": "weather",
+  "description": "Shows you the weather at the specified city",
+  "options": [
+    {
+      "name": "cityName",
+      "description": "City name",
+      "type": 3,
+      "required": true
+    }
+  ]
+}
