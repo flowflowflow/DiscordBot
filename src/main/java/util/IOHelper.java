@@ -15,7 +15,7 @@ public class IOHelper {
 
     // reads and returns Discord API authentication token from properties file
     public static String readToken() {
-        String propFile = "src/main/resources/token.properties";
+        String propFile = "src/main/resources/credentials.properties";
 
         try (InputStream input = new FileInputStream(propFile)) {
             Properties prop = new Properties();
@@ -24,6 +24,19 @@ public class IOHelper {
         } catch (IOException e) {
             logger.error("Failed to load properties file", e);
             return null;
+        }
+    }
+
+    public static long readGuildId() {
+        String propFile = "src/main/resources/credentials.properties";
+
+        try (InputStream input = new FileInputStream(propFile)) {
+            Properties prop = new Properties();
+            prop.load(input);
+            return Long.parseLong(prop.getProperty("guild_id"));
+        } catch (IOException e) {
+            logger.error("Failed to load properties file", e);
+            return 0;
         }
     }
 }
