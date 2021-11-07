@@ -1,11 +1,16 @@
 package util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class IOHelper {
+
+    private static final Logger logger = LoggerFactory.getLogger("IOHelper.class");
 
 
     // reads and returns Discord API authentication token from properties file
@@ -16,9 +21,8 @@ public class IOHelper {
             Properties prop = new Properties();
             prop.load(input);
             return prop.getProperty("token");
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
+        } catch (IOException e) {
+            logger.error("Failed to load properties file", e);
             return null;
         }
     }
