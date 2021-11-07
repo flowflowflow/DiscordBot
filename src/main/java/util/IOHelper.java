@@ -15,7 +15,7 @@ public class IOHelper {
 
     // reads and returns Discord API authentication token from properties file
     public static String readToken() {
-        String propFile = "src/main/resources/credentials.properties";
+        String propFile = "src/main/resources/token.properties";
 
         try (InputStream input = new FileInputStream(propFile)) {
             Properties prop = new Properties();
@@ -28,7 +28,7 @@ public class IOHelper {
     }
 
     public static long readGuildId() {
-        String propFile = "src/main/resources/credentials.properties";
+        String propFile = "src/main/resources/token.properties";
 
         try (InputStream input = new FileInputStream(propFile)) {
             Properties prop = new Properties();
