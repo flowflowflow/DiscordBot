@@ -24,7 +24,6 @@ public class DiscordBot {
 
 
         client.on(ChatInputInteractionEvent.class, event -> {
-            // logic
             if(event.getCommandName().equals("ping")) {
                 return event.reply("Pong :)!");
             }
@@ -33,26 +32,6 @@ public class DiscordBot {
 
 
         client.onDisconnect().block();
-/*
-        System.out.println("=============================");
-
-        Mono.just("LUL").map(String::length).subscribe(System.out::println);
-        Flux.just('O', 'M', 'E', 'G', 'A', 'L', 'U', 'L').subscribe(System.out::print);
-
-
-        Mono.just("Hello World")
-                .flatMap(aString -> Mono.just(aString.length()))
-                .subscribe(System.out::println); // prints 11
-
-        Flux.just("Hello", "World")
-                .flatMap(aString -> Flux.just(aString.length(), 42))
-                .subscribe(System.out::println);
-
-
-        System.out.println("=============================");
-        login.block();
-*/
-
 
     }
 }
