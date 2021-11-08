@@ -32,11 +32,13 @@ public class GuildCommandRegistrar {
         final long applicationId = restClient.getApplicationId().block();
         final long guildId = IOHelper.readGuildId();
 
-        //These are commands already registered with discord from previous runs of the bot.
+        //These are commands already registered with discord from previous runs of the bot
+        //Bot needs permission to create commands
         Map<String, ApplicationCommandData> discordCommands = applicationService
                 .getGuildApplicationCommands(applicationId, guildId)
                 .collectMap(ApplicationCommandData::name)
                 .block();
+
 
         //Get our commands json from resources as command data
         Map<String, ApplicationCommandRequest> commands = new HashMap<>();

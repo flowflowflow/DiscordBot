@@ -2,6 +2,8 @@ import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ApplicationCommandInteractionEvent;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
+import discord4j.core.object.command.ApplicationCommandInteractionOption;
+import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.IOHelper;
@@ -24,14 +26,22 @@ public class DiscordBot {
             new GuildCommandRegistrar(client.getRestClient()).registerCommands();
         } catch (Exception e) {
             logger.error("Failed registering commands", e);
-            System.exit(-1);
         }
 
 
         client.on(ChatInputInteractionEvent.class, event -> {
             if(event.getCommandName().equals("ping")) {
-                logger.info("event received");
                 return event.reply("Pong!");
+            }
+            else if(event.getCommandName().equals("greet")) {
+                String name = event.getOption("name")
+                        .flatMap(ApplicationCommandInteractionOption::getValue)
+                        .map(ApplicationCommandInteractionOptionValue::asString)
+                        .orElse("stranger");
+                return event.reply("Hi " + name + "! Nice to meet you :^)");
+            }
+            else if(event.getCommandName().equals("weather")) {
+                return event.reply("Sunny I guess... (not yet implemented)");
             }
             else return null;
         }).subscribe();
