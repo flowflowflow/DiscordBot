@@ -1,4 +1,5 @@
 token.properties
+*.gradle
 # Project exclude paths
 /.gradle/
 /build/
