@@ -1,6 +1,5 @@
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
-import discord4j.core.event.domain.interaction.ApplicationCommandInteractionEvent;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;
 import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
@@ -12,12 +11,13 @@ public class DiscordBot {
     public static void main(String[] args) {
 
         final Logger logger = LoggerFactory.getLogger("DiscordBot.class");
-        final String token = IOHelper.readToken();
+        final String discordApiToken = IOHelper.readDiscordApiToken();
         final long guildId = IOHelper.readGuildId();
+        final String owmApiToken = IOHelper.readOwmApiToken();
 
-        logger.info("Bot token: " + token + " GuildID: " + guildId);
+        logger.info("Bot token: " + discordApiToken + " GuildID: " + guildId);
 
-        final GatewayDiscordClient client = DiscordClientBuilder.create(token).build()
+        final GatewayDiscordClient client = DiscordClientBuilder.create(discordApiToken).build()
                 .login()
                 .block();
 
